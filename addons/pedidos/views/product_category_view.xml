@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_category_form_view_extend" model="ir.ui.view">
+        <field name="name">product.category.form.extend</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='property_valuation']" position="after">
+                <field name="html_color" widget="color"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

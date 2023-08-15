@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    
+
+    <t t-name="pedidos.ReorderConfirmationDialogg" owl="1">
+      <Dialog title="title">
+        <div role="alert" class="o_dialog_warning">
+          <p t-esc="message" style="white-space: pre-wrap;"/>
+        </div>
+      </Dialog>
+    </t>
+</templates>

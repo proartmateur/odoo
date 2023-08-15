@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="pedidos.PedidosCurrency" owl="1">
+        <span>
+            <t t-if="props.currency.position == 'before'" t-esc="props.currency.symbol"/>
+            <t t-esc="amount"/>
+            <t t-if="props.currency.position == 'after'" t-esc="props.currency.symbol"/>
+        </span>
+    </t>
+
+    <t t-name="pedidos.PedidosOrderLine" owl="1">
+        <div class="d-flex align-items-center pe-3">
+            <div class="btn-group btn_mrg">
+                <!-- <button class="btn btn-sm btn-icon btn-link fa fa-minus-circle p-0" t-if="canEdit" t-on-click="() => this.updateQuantity(-1)"/> -->
+                <!-- <span t-esc="line.quantity" class="px-2 py-1"/> -->
+
+                <input type='number' name='qty' t-att-value='line.quantity' t-on-change="(event) => this.updateQuantity(event)" required='required'/>
+                <p t-esc="line.uom" class='uom_pro'/>
+                <!-- <button class="btn btn-sm btn-icon btn-link fa fa-plus-circle p-0" t-if="canEdit" t-on-click="() => this.updateQuantity(1)"/> -->
+            </div>
+            <span class="flex-grow-1 ps-2 text-700">
+                <a t-on-click="() => props.openOrderLine(line.product[0], line.id)" t-if="canEdit" role="button" title="Edit order">
+                    <t t-esc="line.product[1]"/>
+                </a>
+                <t t-else="" t-esc="line.product[1]"/>
+                <input type='text' class='pedidos_note' name='note' placeholder="add note here.." t-att-value='line.note' t-on-change="(event) => this.updateNote(event)" />
+                <!-- <span t-esc="line.state" t-attf-class="badge ms-2 rounded-pill text-bg-#{badgeClass} border-#{badgeClass} "/> -->
+            </span>
+            <PedidosCurrency currency="props.currency" amount="line.product[2]"/>
+        </div>
+       
+    </t>
+
+    
+
+    <t t-name="pedidos.PedidosUser" owl="1">
+        <div class="pedidos_user pb-1">
+            <span t-if="!props.isManager" t-esc="props.username"/>
+            <Many2XAutocomplete
+                t-else=""
+                value="props.username"
+                resModel="'res.users'"
+                readonly='readonly'
+                getDomain="getDomain"
+                activeActions="{}"
+                update.bind="props.onUpdateUser"
+            />
+        </div>
+    </t>
+
+    <t t-name="pedidos.PedidosEmployee" owl="1">
+        <div class="pedidos_employee pb-1">
+            <!-- <span>Cliente :</span> -->
+            <Many2XAutocomplete
+                autoSelect="true"
+                value="props.employename"
+                resModel="'res.partner'"
+                getDomain="getDomain"
+                activeActions="{}"
+                update.bind="props.onUpdateEmployee"
+            />
+        </div>
+    </t>
+
+    <t t-name="pedidos.PedidosConfig" owl="1">
+        <div class="pedidos_config pb-1">
+            <!-- <span>Cliente :</span> -->
+            <Many2XAutocomplete
+                autoSelect="true"
+                value="props.configname"
+                resModel="'pos.config'"
+                getDomain="getDomain"
+                activeActions="{}"
+                update.bind="props.onUpdateConfig"
+            />
+        </div>
+    </t>
+
+   
+
+    <t t-name="pedidos.PedidosDashboardOrder" owl="1">
+        <div class="o_pedidos_banner container-fluid p-4 border-bottom bg-view">
+            <div class="row h-100">
+                <div class="col-12 col-md-4">
+                    <div class="row h-100">
+                        <!-- <div class="col-3">
+                            <img class="o_image_64_cover rounded-circle" t-att-src="state.infos.userimage"/>
+                        </div> -->
+                        <div class="col-9">
+                            <!-- <PedidosUser
+                                isManager="state.infos.is_manager"
+                                username="state.infos.username"
+                                onUpdateUser.bind="onUpdateUser"/> -->
+
+                            <PedidosEmployee
+                                employename="state.infos.employename"
+                                onUpdateEmployee.bind="onUpdateEmployee"/>
+
+                            <PedidosConfig
+                                configname="state.infos.configname"
+                                onUpdateConfig.bind="onUpdateConfig"/>
+
+                            <div class="d-flex pb-1">
+                                <input type='text' class='order_note' placeholder='Observaciones Generales..' t-on-change="(event) => this.onUpdateOrderNote(event)" t-att-value='state.note'/>
+                            </div>
+                            <div class="d-flex pb-1">
+                                <t t-if='state.date'>
+                                    <input type='date' class='order_date form-control' t-on-change="(event) => this.onUpdateExpectedDate(event)" t-att-value='state.date' style='border-top: none;border-right: none;border-left: none;'/>
+                                </t>
+                                <t t-else=''>
+                                    <input type='date' class='order_date form-control' t-on-change="(event) => this.onUpdateExpectedDate(event)" t-att-value='state.infos.date' style='border-top: none;border-right: none;border-left: none;'/>
+                                </t>
+                            </div>
+                            <!-- <div class="d-flex pb-1">
+                                <span class="flex-grow-1">Your Account</span>
+                                    <PedidosCurrency currency="currency" amount="state.infos.wallet"/> 
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-5" t-if="hasLines">
+                    <h4 class="mb-0">
+                        Your Order
+                        <button t-if="state.infos.raw_state != 'confirmed'" class="btn btn-sm btn-icon btn-link fa fa-trash" t-on-click.prevent="emptyCart"/>
+                    </h4>
+                    <ul class="o_pedidos_widget_lines overflow-auto list-unstyled">
+                        <li t-foreach="state.infos.lines" t-as="line" t-key="line.id">
+                            <PedidosOrderLine line="line" currency="currency" onUpdateQuantity.bind="onUpdateQuantity" openOrderLine.bind="props.openOrderLine"/>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-3 d-flex flex-column justify-content-between" t-if="hasLines">
+                    <h4 class="d-flex flex-row mt-1">
+                        <span class="flex-grow-1">
+                            Total
+                        </span>
+                        <PedidosCurrency currency="currency" amount="state.infos.total"/>
+                    </h4>
+                    <button class="btn btn-primary" t-if="canOrder" t-on-click="orderNow">Order Now</button>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="pedidos.PedidosDashboard" owl="1">
+        <t t-set="currency" t-value="state.infos.currency"/>
+        <t t-if="!env.isSmall">
+            <t t-call="pedidos.PedidosDashboardOrder"/>
+        </t>
+        <t t-else="">
+            <details class="fixed-bottom bg-view p-2" t-att-open="state.mobileOpen">
+                <summary class="btn btn-primary w-100" t-on-click="() => state.mobileOpen = !state.mobileOpen">
+                    <i class="fa fa-fw fa-shopping-cart"/>
+                    Your Cart (<PedidosCurrency currency="currency" amount="state.infos.total || 0"/>)
+                </summary>
+
+                <t t-call="pedidos.PedidosDashboardOrder"/>
+            </details>
+        </t>
+        <script>
+                console.log($('.pedidos_employee input').attr('placeholder','Seleccionar cliente..'));
+                console.log($('.pedidos_config input').attr('placeholder','Seleccionar tienda (opcional)..'));
+                                
+        </script>
+    </t>
+</templates>

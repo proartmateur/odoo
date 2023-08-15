@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <!-- <t t-inherit="point_of_sale.Orderline" t-inherit-mode="extension" t-name="Orderline" owl="1">
+        <xpath expr="//span[hasclass('product-name')]" position="after">
+            <t t-if="props.line.multiple_qty">
+                <span class="fa fa-lock">Multiple Quantity: <t t-esc="props.line.multiple_qty"/></span>
+            </t>
+        </xpath>
+    </t> -->
+
+    <t t-inherit="point_of_sale.SetPricelistButton" t-inherit-mode="extension" t-name="SetPricelistButton" owl="1">
+        <xpath expr="//div[hasclass('o_pricelist_button')]" position='replace'>
+        </xpath>
+    </t>
+    <t t-inherit="point_of_sale.NumpadWidget" t-inherit-mode="extension" t-name="NumpadWidget" owl="1">
+        <xpath expr="//div[hasclass('numpad')]" position='replace'>
+            <div class="numpad"
+                 style='display: grid;grid-template-columns: repeat(3, 1fr);text-align: center;flex-grow: 1;width: 50%;min-width: 216px;'>
+                    <button class="input-button number-char" t-on-click="() => this.sendInput('1')">1</button>
+                <button class="input-button number-char" t-on-click="() => this.sendInput('2')">2</button>
+                <button class="input-button number-char" t-on-click="() => this.sendInput('3')">3</button>
+                <!-- <button class="mode-button" t-att-class="{'selected-mode': props.activeMode === 'quantity'}"
+                        t-on-click="() => this.changeMode('quantity')">Qty</button> -->
+                <button class="input-button number-char" t-on-click="() => this.sendInput('4')">4</button>
+                <button class="input-button number-char" t-on-click="() => this.sendInput('5')">5</button>
+                <button class="input-button number-char" t-on-click="() => this.sendInput('6')">6</button>
+                <!-- <button class="mode-button" t-att-class="{
+                            'selected-mode': props.activeMode === 'discount',
+                            'disabled-mode': !hasManualDiscount
+                        }"
+                        t-att-disabled="!hasManualDiscount"
+                        t-on-click="() => this.changeMode('discount')">% Disc</button> -->
+                <button class="input-button number-char" t-on-click="() => this.sendInput('7')">7</button>
+                <button class="input-button number-char" t-on-click="() => this.sendInput('8')">8</button>
+                <button class="input-button number-char" t-on-click="() => this.sendInput('9')">9</button>
+                <!-- <button class="mode-button" t-att-class="{
+                        'selected-mode': props.activeMode === 'price',
+                        'disabled-mode': !hasPriceControlRights
+                    }" t-att-disabled="!hasPriceControlRights"
+                        t-on-click="() => this.changeMode('price')">Price</button> -->
+                <button class="input-button numpad-minus" t-att-class="{ 'disabled-mode': props.disableSign }"
+                        t-on-click="() => this.sendInput('-')">+/-</button>
+                <button class="input-button number-char" t-on-click="() => this.sendInput('0')">0</button>
+                <!-- <button class="input-button number-char" t-on-click="() => this.sendInput(decimalSeparator)">
+                    <t t-esc="decimalSeparator" />
+                </button> -->
+                <button class="input-button numpad-backspace" t-on-click="() => this.sendInput('Backspace')">
+                        <img style="pointer-events: none;" src="/point_of_sale/static/src/img/backspace.png"
+                             width="24" height="21" alt="Backspace"/>
+                    </button>
+                </div>
+        </xpath>
+        <!-- <xpath expr="//span[hasclass('product-name')]" position="after">
+            <t t-if="props.line.multiple_qty">
+                <span class="fa fa-lock">Multiple Quantity: <t t-esc="props.line.multiple_qty"/></span>
+            </t>
+        </xpath> -->
+    </t>
+    <t t-name="IntInputPopup" owl="1">
+            <div class="popup popup-input pedidos-establecer-cantidad-popup">
+                <header class="title">
+                    <t t-esc="props.title"/>
+                </header>
+                <div class="body">
+                    <t t-if="props.body">
+                        <p>
+                            <t t-esc="props.body"/>
+                        </p>
+                    </t>
+
+                    <input type="number"
+                           min="0"
+                           t-model="state.inputValue"
+                           t-ref="input"
+                           placeholder="Introducir cantidad"
+                           oninput="validity.valid||(value='')"
+                           t-on-input="validateQuantity"
+                           step="any"
+                           t-on-keyup="_onPressEnterKey"/>
+                    <t t-if="state.showError">
+                        <small class="pedidos-establecer-cantidad-popup__input-error"><t t-esc="state.inputError"/></small>
+                    </t>
+                </div>
+                <div class="footer">
+                    <div class="button confirm highlight" t-on-click="confirm">
+                        <t t-esc="props.confirmText"/>
+                    </div>
+                    <div class="button cancel" t-on-click="cancel">
+                        <t t-esc="props.cancelText"/>
+                    </div>
+                </div>
+            </div>
+    </t>
+
+</templates>

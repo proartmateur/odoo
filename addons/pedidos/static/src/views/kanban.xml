@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
-
-    <t t-name="TextInputPopup" owl="1">
+    <t t-name="ProductAddpop" owl="1">
             <div class="popup popup-textinput">
                 <header class="title">
                     <t t-esc="props.title" />
@@ -10,7 +9,7 @@
                     <p>
                         <t t-esc="props.body" />
                     </p>
-                    <input type="text" t-model="state.inputValue" t-ref="input" t-att-placeholder="props.pl aceholder"/>
+                    <input type="text" t-model="state.inputValue" t-ref="input" t-att-placeholder="props.placeholder"/>
                 </div>
                 <div class="footer">
                     <div class="button confirm highlight" t-on-click="confirm">
@@ -22,5 +21,14 @@
                 </div>
             </div>
     </t>
+    
+    <t t-name="pedidos.KanbanRenderer" owl="1">
+        <div class="o_lunch_content d-flex flex-column h-100">
+            <PedidosDashboard openOrderLine.bind="openOrderLine"/>
 
+            <div class="overflow-auto">
+                <t t-call="web.KanbanRenderer"/>
+            </div>
+        </div>
+    </t>
 </templates>
