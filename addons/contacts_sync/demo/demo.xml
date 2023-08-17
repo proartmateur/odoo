@@ -1,15 +1,19 @@
 <odoo>
     <data>
         <record id="object0" model="contacts.sync">
-            <field name="name">AgendaPro Sync</field>
+            <field name="name">AgendaPro</field>
             <field name="api_url">https://agendapro.com/api/public/v1/clients</field>
             <field name="api_username">fake_user</field>
             <field name="api_password">123456</field>
             <field name="sync_type">blocked</field>
+            <field name="is_current_active">0</field>
             <field name="description">
                 Instrucciones:
-                  Habilite el modo masivo antes de comenzar.
-                    1 - Presione click sobre el botón "HABILITAR MASIVO"
+                  Habilite la sincronización y el modo masivo antes de comenzar.
+                    1 - Presione click sobre "Activar"
+                    2 - Presione click sobre el botón "HABILITAR MASIVO"
+
+                Nota: Solamente podrá estar activa una configuración de sincronización.
             </field>
         </record>
     </data>

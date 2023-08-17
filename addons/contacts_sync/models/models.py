@@ -13,8 +13,9 @@ class contacts_sync(models.Model):
     api_password = fields.Char()
     sync_type = fields.Char()
     description = fields.Text()
+    is_current_active = fields.Boolean()
 
-    # region Methods
+    # region Form Methods
     def sync_all_contacts(self):
         if self.sync_type != 'massive':
             return self.notify_danger('Ups!', 'Solamente se pueden sincronizar todos los contactos cuando el tipo de actualización es atómico. Presione click sobre el botón: "HABILITAR MASIVO" y vuelva a intentarlo nuevamente.')
@@ -64,4 +65,13 @@ class contacts_sync(models.Model):
                 Al momento de ejecturase, va a sobreescribir la información del contacto existente en {self.name}.
                 En caso de no existir en {self.name} se creará un nuevo contacto con la información de Odoo.
                 """
+
+    def set_active_current(self):
+        self.is_current_active = True
+        id = self.id
+        for record in self.search([]):
+            print("record.id:")
+            print(record.id)
+            if record.id != id:
+                record.is_current_active = False
     # endregion

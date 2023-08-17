@@ -79,7 +79,12 @@
         </field>
     </record>
     <!-- Top menu item -->
-    <menuitem id="aprueba_root" name="Aprueba" sequence="0"/>
+    <menuitem
+            id="aprueba_root"
+            name="Aprueba"
+            sequence="0"
+            web_icon="contacts_sync,static/description/icon.svg"
+    />
     <menuitem
             id="aprueba_detail"
             name="Detalle"
