@@ -4,3 +4,5 @@ python3 odoo-bin --addons-path=addons -d odoo --db_port 5433 --db_user odoo_user
 
 open
 http://localhost:8069/web
+#crear nuevo módulo
+python3 odoo-bin scaffold contacts_sync "/Users/ennima/Devs/Learn/odoo/server/odoo/addons"
