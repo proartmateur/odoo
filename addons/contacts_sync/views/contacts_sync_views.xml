@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_contact_sync" model="ir.actions.act_window">
+        <field name="name">Configuración de Sincronizaciones</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">contacts.sync</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Agrega tu primera sincronización
+            </p>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="contact_sync_form">
+        <field name="name">contacts.sync.form</field>
+        <field name="model">contacts.sync</field>
+        <field name="arch" type="xml">
+            <!-- view content: <form>, <tree>, <graph>, ... -->
+            <form string="Idea Form">
+                <header style="display: flex; padding: 24px;">
+                    <h1>Acciones: </h1>
+                    <button string="Sincronizar todos"
+                            type="object"
+                            name="sync_all_contacts"
+                            />
+                    <button string="Habilitar Masivo"
+                            type="object"
+                            name="set_massive_available"
+                            />
+
+                    <button string="Habilitar Atómico"
+                            type="object"
+                            name="set_atomic_available"
+                            />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" string="Nombre"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <div class="oe_api_url" style="display: flex; width: 100%;">
+                        <label for="api_url" class="oe_edit_only" string="Api URL"/>
+                        <h2 style="flex-grow:1;">
+                            <field style="display:flex; width: 100%" name="api_url"/>
+                        </h2>
+                    </div>
+                    <div class="oe_api_url">
+                        <label for="api_username" class="oe_edit_only" string="Usuario de Api"/>
+                        <h2>
+                            <field name="api_username"/>
+                        </h2>
+                    </div>
+                    <div class="oe_api_url">
+                        <label for="api_password" class="oe_edit_only" string="Contraseña de Api"/>
+                        <h2>
+                            <field name="api_password"/>
+                        </h2>
+                    </div>
+                    <div class="oe_api_url">
+                        <label for="sync_type"  string="Tipo de sincronización"/>
+                        <h2>
+                            <field attrs="{'readonly':(True)}" name="sync_type"/>
+                        </h2>
+                    </div>
+                    <separator string="Ayuda" colspan="2"/>
+                    <group colspan="2" col="2">
+                        <field
+                                attrs="{'readonly':(True)}"
+                                name="description"
+                                placeholder="Ayuda..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- MENU -->
+    <menuitem id="contact_sync_root" name="Sincronizar Contactos" sequence="1"/>
+    <menuitem
+            id="contact_sync_syncs"
+            name="Sincronizaciones"
+            parent="contact_sync_root"
+            action="action_contact_sync"/>
+</odoo>
