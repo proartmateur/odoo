@@ -105,7 +105,7 @@
                                     </h2>
                                 </div>
 
-                                <div style="display: flex;margin: 12px 0px; align-items: end;">
+                                <div style="display: flex;margin: 12px 0px;align-items: end;padding: 0px 12px;">
                                     <div style="display: flex; flex-grow:1;">
                                         <strong>
                                             <t t-if="record.is_current_active.raw_value">
@@ -114,10 +114,17 @@
                                                 </strong>
                                             </t>
                                         </strong>
+                                        <strong>
+                                            <t t-if="record.is_current_active.raw_value">
+                                                <strong style="display: flex;color: white;background-color: #00876b;padding: 1px 7px;font-size: small;font-weight: 400;">
+                                                    <field name="sync_type" />
+                                                </strong>
+                                            </t>
+                                        </strong>
                                     </div>
-                                    <div syle="display: flex;">
+                                    <div style="display: flex;">
                                         <a style="display: flex;background-color: #d4165c;color: white;justify-content: center;align-items: center;padding: 4px 12px;border-radius: 5px;font-size: medium;font-weight: 500;" type="open">
-                                            ABRIR
+                                            EDITAR
                                         </a>
                                     </div>
                                 </div>
